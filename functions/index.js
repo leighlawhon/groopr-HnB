@@ -27,14 +27,14 @@ const {
 } = require("./APIs/users")
 
 // Users
-app.post("/api/login", loginUser);
+app.post("/login", loginUser);
 
-app.post("/api/signup", signUpUser);
+app.post("/signup", signUpUser);
 
-app.post('/api/user/image', auth, uploadProfilePhoto);
+app.post('/user/image', auth, uploadProfilePhoto);
 
-app.get('/api/user', auth, getUserDetail);
+app.get('/user', auth, getUserDetail);
 
-app.post('/api/user', auth, updateUserDetails);
+app.post('/user', auth, updateUserDetails);
 
 exports.api = functions.https.onRequest(app);
