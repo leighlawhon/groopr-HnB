@@ -84,7 +84,7 @@ class account extends Component {
     const authToken = localStorage.getItem('AuthToken');
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .get('/user')
+      .get('https://us-central1-grooper-hnb.cloudfunctions.net/api/user')
       .then((response) => {
         console.log(response.data);
         this.setState({
@@ -130,7 +130,7 @@ class account extends Component {
     form_data.append('content', this.state.content);
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     axios
-      .post('/user/image', form_data, {
+      .post('https://us-central1-grooper-hnb.cloudfunctions.net/api/user/image', form_data, {
         headers: {
           'content-type': 'multipart/form-data'
         }

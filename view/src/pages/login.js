@@ -19,27 +19,27 @@ const styles = (theme) => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   customError: {
     color: 'red',
     fontSize: '0.8rem',
-    marginTop: 10
+    marginTop: 10,
   },
   progess: {
-    position: 'absolute'
-  }
+    position: 'absolute',
+  },
 });
 
 class login extends Component {
@@ -50,7 +50,7 @@ class login extends Component {
       email: '',
       password: '',
       errors: [],
-      loading: false
+      loading: false,
     };
   }
 
@@ -64,7 +64,7 @@ class login extends Component {
 
   handleChange = (event) => {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
     });
   };
 
@@ -73,10 +73,13 @@ class login extends Component {
     this.setState({ loading: true });
     const userData = {
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
     };
     axios
-      .post('/login', userData)
+      .post(
+        'https://us-central1-grooper-hnb.cloudfunctions.net/api/login',
+        userData
+      )
       .then((response) => {
         localStorage.setItem('AuthToken', `Bearer ${response.data.token}`);
         this.setState({
@@ -87,7 +90,7 @@ class login extends Component {
       .catch((error) => {
         this.setState({
           errors: error.response.data,
-          loading: false
+          loading: false,
         });
       });
   };
@@ -104,7 +107,7 @@ class login extends Component {
           </Avatar>
           <Typography component="h1" variant="h5">
             Login
-					</Typography>
+          </Typography>
           <form className={classes.form} noValidate>
             <TextField
               variant="outlined"
@@ -144,7 +147,9 @@ class login extends Component {
               disabled={loading || !this.state.email || !this.state.password}
             >
               Sign In
-							{loading && <CircularProgress size={30} className={classes.progess} />}
+              {loading && (
+                <CircularProgress size={30} className={classes.progess} />
+              )}
             </Button>
             <Grid container>
               <Grid item>
