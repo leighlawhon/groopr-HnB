@@ -7,19 +7,19 @@ app.use(cors());
 const auth = require("./util/auth");
 
 const {
-  getAllItems,
-  postOneItem,
-  deleteItem,
-  editItem,
-} = require("./APIs/items");
+  getAllProjects,
+  postOneProject,
+  deleteProject,
+  editProject,
+} = require("./APIs/projects");
 
-app.post("/item", auth, postOneItem);
+app.post("/project", auth, postOneProject);
 
-app.get("/items", auth, getAllItems);
+app.get("/projects", auth, getAllProjects);
 
-app.delete("/item/:itemId", auth, deleteItem);
+app.delete("/project/:projectId", auth, deleteProject);
 
-app.put("/item/:itemId", auth, editItem);
+app.put("/project/:projectId", auth, editProject);
 
 const {
   loginUser,

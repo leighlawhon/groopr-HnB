@@ -10,6 +10,9 @@ import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import NotesIcon from '@material-ui/icons/Notes';
 import Avatar from '@material-ui/core/avatar';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import axios from 'axios';
+import { authMiddleWare } from '../util/auth';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,14 +22,17 @@ import {
   useRouteMatch,
   useHistory
 } from 'react-router-dom';
+import { withRouter } from "react-router";
 const drawerWidth = 240;
 const styles = ((theme) => ({
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
+
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    top: "60px"
   },
   content: {
     flexGrow: 1,
@@ -43,9 +49,7 @@ const styles = ((theme) => ({
 
 
 class sidebar extends Component {
-  logoutHandler = (event) => {
-    localStorage.removeItem('AuthToken');
-  };
+
 
   constructor(props) {
     super(props);
@@ -58,6 +62,32 @@ class sidebar extends Component {
       imageLoading: false
     };
   }
+  componentWillMount = () => {
+    authMiddleWare(this.props.history);
+    const authToken = localStorage.getItem('AuthToken');
+    axios.defaults.headers.common = { Authorization: `${authToken}` };
+    axios
+      .get('https://us-central1-grooper-hnb.cloudfunctions.net/api/user')
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          firstName: response.data.userCredentials.firstName,
+          lastName: response.data.userCredentials.lastName,
+          uiLoading: false,
+          profilePicture: response.data.userCredentials.imageUrl
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 403) {
+          this.props.history.push('/login')
+        }
+        console.log(error);
+        this.setState({ errorMsg: 'Error in retrieving the data' });
+      });
+  };
+  logoutHandler = (event) => {
+    localStorage.removeItem('AuthToken');
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -71,10 +101,10 @@ class sidebar extends Component {
         <div className={classes.toolbar} />
         <Divider />
         <center>
-          <Avatar src={this.props.profilePicture} className={classes.avatar} />
+          <Avatar src={this.state.profilePicture} className={classes.avatar} />
           <p>
             {' '}
-            {this.props.firstName} {this.props.lastName}
+            {this.state.firstName} {this.state.lastName}
           </p>
         </center>
         <Divider />
@@ -108,4 +138,4 @@ class sidebar extends Component {
   }
 }
 
-export default (withStyles(styles)(sidebar));
+export default withRouter((withStyles(styles)(sidebar)));

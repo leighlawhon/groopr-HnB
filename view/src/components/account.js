@@ -15,7 +15,9 @@ import { authMiddleWare } from '../util/auth';
 const styles = (theme) => ({
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    width: "calc(100% - 270px)",
+    marginLeft: "auto"
   },
   toolbar: theme.mixins.toolbar,
   root: {},
@@ -271,13 +273,13 @@ class account extends Component {
                       label="Phone Number"
                       margin="dense"
                       name="phone"
-                      type="number"
                       variant="outlined"
                       disabled={true}
                       value={this.state.phoneNumber}
                       onChange={this.handleChange}
                     />
                   </Grid>
+
                   <Grid item md={6} xs={12}>
                     <TextField
                       fullWidth
