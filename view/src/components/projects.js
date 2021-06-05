@@ -21,6 +21,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 
 import Quote from './quote';
+import ProjectForm from './projectForm'
 
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -86,6 +87,9 @@ const styles = ((theme) => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500]
+  },
+  quote: {
+    paddingTop: "60px ​!important"
   }
 }));
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -97,8 +101,14 @@ class projects extends Component {
 
     this.state = {
       projects: [],
-      title: '',
-      body: '',
+      architect: '',
+      bidDate: '',
+      createdAt: '',
+      dwgDate: '',
+      location: '',
+      notes: '',
+      projectName: '',
+      quotedBy: '',
       projectId: '',
       errors: [],
       open: false,
@@ -111,7 +121,6 @@ class projects extends Component {
 
     this.deleteProjectHandler = this.deleteProjectHandler.bind(this);
     this.handleEditClickOpen = this.handleEditClickOpen.bind(this);
-    this.handleViewOpen = this.handleViewOpen.bind(this);
     this.handleQuoteOpen = this.handleQuoteOpen.bind(this);
 
   }
@@ -146,7 +155,7 @@ class projects extends Component {
     axios.defaults.headers.common = { Authorization: `${authToken}` };
     let projectId = data.project.projectId;
     axios
-      .delete(`project/${projectId}`)
+      .delete(`https://us-central1-grooper-hnb.cloudfunctions.net/api/project/${projectId}`)
       .then(() => {
         window.location.reload();
       })
@@ -157,25 +166,28 @@ class projects extends Component {
 
   handleEditClickOpen(data) {
     this.setState({
-      title: data.project.title,
-      body: data.project.body,
-      projectId: data.project.projectId,
+      architect: data.project.architect,
+      bidDate: data.project.bidDate,
+      createdAt: data.project.createdAt,
+      dwgDate: data.project.dwgDate,
+      location: data.project.location,
+      notes: data.project.notes,
+      projectName: data.project.projectName,
+      quotedBy: data.project.quotedBy,
       buttonType: 'Edit',
       open: true
     });
   }
-
-  handleViewOpen(data) {
-    this.setState({
-      title: data.project.title,
-      body: data.project.body,
-      viewOpen: true
-    });
-  }
   handleQuoteOpen(data) {
     this.setState({
-      title: data.project.title,
-      body: data.project.body,
+      architect: data.project.architect,
+      bidDate: data.project.bidDate,
+      createdAt: data.project.createdAt,
+      dwgDate: data.project.dwgDate,
+      location: data.project.location,
+      notes: data.project.notes,
+      projectName: data.project.projectName,
+      quotedBy: data.project.quotedBy,
       quoteOpen: true
     });
   }
@@ -205,9 +217,14 @@ class projects extends Component {
 
     const handleClickOpen = () => {
       this.setState({
-        projectId: '',
-        title: '',
-        body: '',
+        architect: '',
+        bidDate: '',
+        createdAt: '',
+        dwgDate: '',
+        location: '',
+        notes: '',
+        projectName: '',
+        quotedBy: '',
         buttonType: '',
         open: true
       });
@@ -216,22 +233,43 @@ class projects extends Component {
     const handleSubmit = (event) => {
       authMiddleWare(this.props.history);
       event.preventDefault();
-      const userTodo = {
-        title: this.state.title,
-        body: this.state.body
-      };
       let options = {};
       if (this.state.buttonType === 'Edit') {
         options = {
-          url: `/project/${this.state.projectId}`,
+          url: `https://us-central1-grooper-hnb.cloudfunctions.net/api/project/${this.state.projectId}`,
           method: 'put',
-          data: userTodo
+          data: {
+            "architect": this.state.architect,
+            "bidDate": this.state.bidDate,
+            "createdAt": {
+              "_seconds": 1622543400,
+              "_nanoseconds": 0
+            },
+            "dwgDate": this.state.dwgDate,
+            "location": this.state.location,
+            "notes": this.state.notes,
+            "projectName": this.state.projectName,
+            "quotedBy": this.state.quotedBy
+          }
         };
       } else {
         options = {
-          url: '/project',
+          url: 'https://us-central1-grooper-hnb.cloudfunctions.net/api/project',
           method: 'post',
-          data: userTodo
+          data: {
+
+            "architect": this.state.architect,
+            "bidDate": "",
+            "createdAt": {
+              "_seconds": 1622543400,
+              "_nanoseconds": 0
+            },
+            "dwgDate": "",
+            "location": "reston, va",
+            "notes": "",
+            "projectName": "test5",
+            "quotedBy": ""
+          }
         };
       }
       const authToken = localStorage.getItem('AuthToken');
@@ -281,14 +319,14 @@ class projects extends Component {
           >
             <AddCircleIcon style={{ fontSize: 60 }} />
           </IconButton>
-          <Dialog fullScreen open={quoteOpen} onClose={handleQuoteClose} TransitionComponent={Transition}>
+          <Dialog className={classes.quote} fullScreen spacing={5} p={5} open={quoteOpen} onClose={handleQuoteClose} TransitionComponent={Transition}>
             <AppBar className={classes.appBar}>
               <Toolbar>
                 <IconButton edge="start" color="inherit" onClick={handleQuoteClose} aria-label="close">
                   <CloseIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                  Project: {this.state.title}
+                  Project: {this.state.projectName}
                 </Typography>
                 <Button
                   autoFocus
@@ -307,7 +345,7 @@ class projects extends Component {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {this.state.buttonType === 'Edit' ? 'Edit Todo' : 'Create a new Todo'}
+              {this.state.buttonType === 'Edit' ? 'Edit Todo' : 'Create a new Project'}
             </Typography>
             <Button
               autoFocus
@@ -318,43 +356,17 @@ class projects extends Component {
               {this.state.buttonType === 'Edit' ? 'Save' : 'Submit'}
             </Button>
 
-            <form className={classes.form} noValidate>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="projectTitle"
-                    label="Todo Title"
-                    name="title"
-                    autoComplete="projectTitle"
-                    helperText={errors.title}
-                    value={this.state.title}
-                    error={errors.title ? true : false}
-                    onChange={this.handleChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="projectDetails"
-                    label="Todo Details"
-                    name="body"
-                    autoComplete="projectDetails"
-                    multiline
-                    rows={25}
-                    rowsMax={25}
-                    helperText={errors.body}
-                    error={errors.body ? true : false}
-                    onChange={this.handleChange}
-                    value={this.state.body}
-                  />
-                </Grid>
-              </Grid>
-            </form>
+            <ProjectForm
+              classes
+              errors={this.state.errors}
+              architect={this.state.architect}
+              bidDate={this.state.bidDate}
+              createdAt={this.state.createdAt}
+              dwgDate={this.state.dwgDate}
+              location={this.state.location}
+              notes={this.state.notes}
+              projectName={this.state.projectName}
+              quotedBy={this.state.quotedBy} />
           </Dialog>
 
           <Grid container spacing={2}>
@@ -363,20 +375,16 @@ class projects extends Component {
                 <Card className={classes.root} variant="outlined">
                   <CardContent>
                     <Typography variant="h5" component="h2">
-                      {project.title}
+                      {project.projectName}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
                       {dayjs(project.createdAt).fromNow()}
                     </Typography>
                     <Typography variant="body2" component="p">
-                      {`${project.body.substring(0, 65)}`}
+                      {`${project.location.substring(0, 65)}`}
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small" color="primary" onClick={() => this.handleViewOpen({ project })}>
-                      {' '}
-											View{' '}
-                    </Button>
                     <Button size="small" color="primary" onClick={() => this.handleEditClickOpen({ project })}>
                       Edit
 										</Button>
@@ -400,18 +408,18 @@ class projects extends Component {
             classes={{ paperFullWidth: classes.dialogeStyle }}
           >
             <DialogTitle id="customized-dialog-title" onClose={handleViewClose}>
-              {this.state.title}
+              {this.state.projectName}
             </DialogTitle>
             <DialogContent dividers>
               <TextField
                 fullWidth
                 id="projectDetails"
-                name="body"
+                name="location"
                 multiline
                 readOnly
                 rows={1}
                 rowsMax={25}
-                value={this.state.body}
+                value={this.state.location}
                 InputProps={{
                   disableUnderline: true
                 }}

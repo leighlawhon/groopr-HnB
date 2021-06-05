@@ -11,9 +11,14 @@ exports.getAllProjects = (request, response) => {
       data.forEach((doc) => {
         projects.push({
           projectId: doc.id,
-          title: doc.data().title,
-          body: doc.data().body,
+          architect: doc.data().architect,
+          bidDate: doc.data().bidDate,
           createdAt: doc.data().createdAt,
+          dwgDate: doc.data().dwgDate,
+          location: doc.data().location,
+          notes: doc.data().notes,
+          projectName: doc.data().projectName,
+          quotedBy: doc.data().quotedBy,
         });
       });
       return response.json(projects);
@@ -25,18 +30,23 @@ exports.getAllProjects = (request, response) => {
 };
 
 exports.postOneProject = (request, response) => {
-  if (request.body.body.trim() === "") {
+  if (request.body.location.trim() === "") {
     return response.status(400).json({ body: "Must not be empty" });
   }
 
-  if (request.body.title.trim() === "") {
-    return response.status(400).json({ title: "Must not be empty" });
+  if (request.body.projectName.trim() === "") {
+    return response.status(400).json({ projectName: "Must not be empty" });
   }
 
   const newProject = {
-    title: request.body.title,
-    body: request.body.body,
+    architect: request.body.architect,
+    bidDate: request.body.bidDate,
     createdAt: new Date().toISOString(),
+    dwgDate: request.body.dwgDate,
+    location: request.body.location,
+    notes: request.body.notes,
+    projectName: request.body.projectName,
+    quotedBy: request.body.quotedBy,
     username: request.user.username,
   }
   db
