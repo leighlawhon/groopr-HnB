@@ -1,0 +1,333 @@
+{
+	"info": {
+		"_postman_id": "0c512d33-d29a-4c6e-8bc4-0f5f4d02aa43",
+		"name": "Quotes API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all Quotes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/quotes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quotes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Single Quote",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/quotes/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quotes",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "PcooByc27PQAJXna436D"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add a Quote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sheet_dc\": [\r\n        {\r\n            \"category\": \"TITUS Air Devices\",\r\n            \"quantity\": 2,\r\n            \"name\": \"PAS Perforated Ceiling Diffusers – NO VD’s\",\r\n            \"price\": 250,\r\n            \"markup\": \"Some markup\"\r\n        }\r\n    ],\r\n    \"sheet_balt\": [],\r\n    \"equip_dc\": [],\r\n    \"equip_balt\": [],\r\n    \"pipe\": [],\r\n    \"atc\": [],\r\n    \"notes\": \"Some note\",\r\n    \"total\": 250\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/quotes",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quotes"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add a Quote",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sheet_dc\": [\r\n        {\r\n            \"category\": \"TITUS Air Devices\",\r\n            \"quantity\": 2,\r\n            \"name\": \"PAS Perforated Ceiling Diffusers – NO VD’s\",\r\n            \"price\": 250,\r\n            \"markup\": \"Some markup\"\r\n        }\r\n    ],\r\n    \"sheet_balt\": [],\r\n    \"equip_dc\": [],\r\n    \"equip_balt\": [],\r\n    \"pipe\": [],\r\n    \"atc\": [],\r\n    \"notes\": \"Some note\",\r\n    \"total\": 500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quotes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quotes"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "38"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"26-q5R4CceJWM47WKSXupw3a0zP/40\""
+						},
+						{
+							"key": "date",
+							"value": "Tue, 08 Jun 2021 05:31:39 GMT"
+						},
+						{
+							"key": "connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "keep-alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"created\": true\n    },\n    \"error\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Update a Quote",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"notes\": \"Add more items in pipe\",\r\n    \"pipe\": [\r\n        {\r\n            \"category\": \"EASTERN Spiral Ductwork\",\r\n            \"quantity\": 4,\r\n            \"name\": \"SINGLE WALL SPIRAL, GALV G90\",\r\n            \"price\": 400,\r\n            \"markup\": \"Some other markup\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/quotes/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quotes",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "6d7a251d-74e9-4c84-9805-74cb282312fb"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update a Quote",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"notes\": \"Add more items in pipe\",\r\n    \"pipe\": [\r\n        {\r\n            \"category\": \"EASTERN Spiral Ductwork\",\r\n            \"quantity\": 4,\r\n            \"name\": \"SINGLE WALL SPIRAL, GALV G90\",\r\n            \"price\": 400,\r\n            \"markup\": \"Some other markup\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/quotes/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quotes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "6d7a251d-74e9-4c84-9805-74cb282312fb"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "38"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"26-3whNVvt7SsDvEG4h1iM/jEsB2hI\""
+						},
+						{
+							"key": "date",
+							"value": "Tue, 08 Jun 2021 05:34:32 GMT"
+						},
+						{
+							"key": "connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "keep-alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"updated\": true\n    },\n    \"error\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete a Quote",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/quotes/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"quotes",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "cec80db2-4de1-46a5-a0fd-d7538ce6efdb"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete a Quote",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/quotes/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"quotes",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "cec80db2-4de1-46a5-a0fd-d7538ce6efdb"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "38"
+						},
+						{
+							"key": "etag",
+							"value": "W/\"26-+lw4HmtzIHyQKZs9gkEhOFSH8pI\""
+						},
+						{
+							"key": "date",
+							"value": "Tue, 08 Jun 2021 05:28:30 GMT"
+						},
+						{
+							"key": "connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "keep-alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"deleted\": true\n    },\n    \"error\": null\n}"
+				}
+			]
+		}
+	]
+}

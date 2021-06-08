@@ -12,6 +12,9 @@ const {
   deleteProject,
   editProject,
 } = require("./APIs/projects");
+const quotesRoute = require("./APIs/quotes");
+
+app.use("/quotes",quotesRoute);
 
 app.post("/project", auth, postOneProject);
 
